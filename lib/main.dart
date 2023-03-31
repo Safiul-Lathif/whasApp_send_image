@@ -1,9 +1,12 @@
 import 'dart:io';
+import 'package:appinio_social_share/appinio_social_share.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:share_to_whatsapp/whatsapp_share.dart';
 import 'package:share_whatsapp/share_whatsapp.dart';
+import 'package:whatsapp_ckeckup/shareWhatsapp.dart';
 import 'package:whatsapp_sender_flutter/whatsapp_sender_flutter.dart';
 
 Future<void> main() async {
@@ -18,11 +21,10 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Adapt Android 13',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MainScreen(),
+      home: const MainScreen(),
     );
   }
 }
@@ -36,7 +38,8 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   String? _filepath;
-
+  String mobileNumber = '+917010779720';
+  // AppinioSocialShare appinioSocialShare = AppinioSocialShare();
   @override
   void initState() {
     super.initState();
@@ -46,31 +49,151 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Adapt Android 13'),
+        title: const Text('Whatsapp Check'),
       ),
       body: _filepath != null
           ? Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SizedBox(
-                    width: 250.0,
-                    height: 250.0,
-                    child: Image.file(File(_filepath!)),
-                  ),
-                  ElevatedButton(
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.green)),
-                      onPressed: sendMessage,
-                      // onPressed: () {
-                      //   shareWhatsapp.share(
-                      //       text: 'hiiii safi',
-                      //       phone: '+917868920541',
-                      //       file: XFile(_filepath!));
-                      // },
-                      child: Text("Whatsapp"))
-                ],
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(
+                      width: 250.0,
+                      height: 250.0,
+                      child: Image.file(File(_filepath!)),
+                    ),
+                    ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.green)),
+                        onPressed: () {
+                          shareWhatsapp.share(
+                              text: 'hello ',
+                              phone: mobileNumber,
+                              file: XFile(_filepath!));
+                        },
+                        child: const Text("share_whatsapp")),
+                    ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.green)),
+                        // onPressed:
+                        // sendMessage,
+                        onPressed: () async {
+                          //   FlutterOpenWhatsapp.sendSingleMessage(
+                          //       mobileNumber, "Hello");
+                        },
+                        child: const Text("open_whatsapp")),
+                    ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.green)),
+                        // onPressed:
+                        // sendMessage,
+                        onPressed: () async {
+                          shareWhatsapp.share(
+                              text: 'hiii',
+                              file: XFile(_filepath!),
+                              phone: mobileNumber);
+                        },
+                        child: const Text("Share Whatsapp")),
+                    ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.green)),
+                        // onPressed:
+                        // sendMessage,
+                        onPressed: () async {
+                          await WhatsAppSenderFlutter.send(
+                            phones: [mobileNumber],
+                            message: "Hello",
+                            file: File(_filepath!),
+                          );
+                        },
+                        child: const Text("Whatsapp sender Flutter")),
+                    ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.green)),
+                        // onPressed:
+                        // sendMessage,
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HomePage(),
+                              ));
+                        },
+                        child: const Text("To Direct Message")),
+                    ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.green)),
+                        // onPressed:
+                        // sendMessage,
+                        onPressed: () async {
+                          await WhatsappShare.shareFile(
+                            text: 'Whatsapp share text',
+                            phone: mobileNumber,
+                            filePath: [_filepath!, _filepath!],
+                          );
+                        },
+                        child: const Text("Share to whatsapp")),
+                    // ElevatedButton(
+                    //     style: ButtonStyle(
+                    //         backgroundColor:
+                    //             MaterialStateProperty.all(Colors.green)),
+                    //     // onPressed:
+                    //     // sendMessage,
+                    //     onPressed: () {
+                    //       shareWhatsapp.share(
+                    //           text: 'hello ',
+                    //           phone: mobileNumber,
+                    //           file: XFile(_filepath!));
+                    //     },
+                    //     child: const Text("Whatsapp")),
+                    // ElevatedButton(
+                    //     style: ButtonStyle(
+                    //         backgroundColor:
+                    //             MaterialStateProperty.all(Colors.green)),
+                    //     // onPressed:
+                    //     // sendMessage,
+                    //     onPressed: () {
+                    //       shareWhatsapp.share(
+                    //           text: 'hello ',
+                    //           phone: mobileNumber,
+                    //           file: XFile(_filepath!));
+                    //     },
+                    //     child: const Text("Whatsapp")),
+                    // ElevatedButton(
+                    //     style: ButtonStyle(
+                    //         backgroundColor:
+                    //             MaterialStateProperty.all(Colors.green)),
+                    //     // onPressed:
+                    //     // sendMessage,
+                    //     onPressed: () {
+                    //       shareWhatsapp.share(
+                    //           text: 'hello ',
+                    //           phone: mobileNumber,
+                    //           file: XFile(_filepath!));
+                    //     },
+                    //     child: const Text("Whatsapp")),
+                    // ElevatedButton(
+                    //     style: ButtonStyle(
+                    //         backgroundColor:
+                    //             MaterialStateProperty.all(Colors.green)),
+                    //     // onPressed:
+                    //     // sendMessage,
+                    //     onPressed: () {
+                    //       shareWhatsapp.share(
+                    //           text: 'hello ',
+                    //           phone: mobileNumber,
+                    //           file: XFile(_filepath!));
+                    //     },
+                    //     child: const Text("Whatsapp")),
+                    Text("Nearly 6 packages not working")
+                  ],
+                ),
               ),
             )
           : Container(),
@@ -82,45 +205,28 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  void sendMessage() async {
-    await WhatsAppSenderFlutter.send(
-      phones: ["917868920541", "919842068520"],
-      message: "Hello",
-      file: File("path-to-file.pdf"),
-      onEvent: (WhatsAppSenderFlutterStatus status) {
-        print(status);
-      },
-      onQrCode: (String qrCode) {
-        print(qrCode);
-      },
-      onSending: (WhatsAppSenderFlutterCounter counter) {
-        print(counter.success.toString());
-        print(counter.fails.toString());
-      },
-      onError: (WhatsAppSenderFlutterErrorMessage errorMessage) {
-        print(errorMessage);
-      },
+  snackBar(String message) {
+    final snackBar = SnackBar(
+      content: Text(message),
+      duration: const Duration(milliseconds: 1000),
     );
-    // await WhatsAppSenderFlutter.send(
-    //   phones: ["917868920541", "919842068520"],
-    //   message: "Hello",
-    // );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   Future<void> _pickFile() async {
     final androidInfo = await DeviceInfoPlugin().androidInfo;
-    late final Map<Permission, PermissionStatus> statusess;
+    final Map<Permission, PermissionStatus> statuses;
 
     if (androidInfo.version.sdkInt <= 32) {
-      statusess = await [
+      statuses = await [
         Permission.storage,
       ].request();
     } else {
-      statusess = await [Permission.photos, Permission.notification].request();
+      statuses = await [Permission.photos, Permission.notification].request();
     }
 
     var allAccepted = true;
-    statusess.forEach((permission, status) {
+    statuses.forEach((permission, status) {
       if (status != PermissionStatus.granted) {
         allAccepted = false;
       }

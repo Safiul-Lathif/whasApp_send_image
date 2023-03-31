@@ -43,7 +43,15 @@ dependencies:
   pinput: ^2.2.23
   lottie: ^2.2.0
   whatsapp_sender_flutter: ^0.2.0
-
+  whatsapp: ^2.0.0
+  # whatsapp_share: ^2.0.1
+  appinio_social_share: ^0.2.1
+  # whatsapp_share2: ^2.0.2
+  direct_whatsapp: ^0.0.1
+  screenshot: ^1.3.0
+  path_provider: ^2.0.14
+  share_to_whatsapp: ^0.0.2
+  flutter_open_whatsapp: ^0.1.2
 
 dev_dependencies:
   flutter_test:
